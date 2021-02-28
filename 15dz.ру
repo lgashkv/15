@@ -1,0 +1,84 @@
+import requests
+from bs4 import BeautifulSoup
+KEYWORDS = ['phyton', 'парсинг']
+res = requests.get('https://habr.com/ru/all/')
+import time
+def get_all(res):
+    time.sleep(0.3)    
+    soup = BeautifulSoup(res.text, 'html.parser')
+    news_blocks = soup.find_all('h2', class_='post__title')
+    article = list(map(lambda x: x.find('a', class_='post__title_link'), news_blocks))
+    posts = soup.find_all('article', class_='post_preview')
+    date_all = list(map(lambda x: x.find('span', class_='post__time'), posts)) 
+    for number_date in date_all:
+        for date_deffinitly in number_date:
+            date_deffinitly
+    for number_block in article:
+        for block1 in number_block:
+            if any([keywords.lower() in block1.lower() for keywords in KEYWORDS]):
+                print(date_deffinitly,block1,number_block.attrs.get('href'))
+            else:
+                print('По таким ключевым словам статей нет')
+get_all_1(res)
+____________________
+Короче у меня не получается. я пробовала такие варианты
+
+import re
+for block in article:
+     for block1 in block:
+        if any([keywords.lower() in block1.lower() for keywords in KEYWORDS]):
+            posts = soup.find('article', class_='post_preview', text=re.compile(block1.lower())) 
+            print(posts)
+
+не находит передает None
+
+date_all = list(map(lambda x: x.find('span', class_='post__time'), posts)) 
+for number_date in date_all:
+    date = number_date.find('span', class_='post__time')
+  
+ответ: None
+date = number_date.find('span', class_='post__time').text
+ответ: 'NoneType' object has no attribute 'text'
+___________________________________________________
+
+если отдельно все разложить: то дата опять неверна.
+
+import requests
+from bs4 import BeautifulSoup
+KEYWORDS = ['phyton', 'парсинг']
+res = requests.get('https://habr.com/ru/all/')
+import time
+time.sleep(0.3)    
+soup = BeautifulSoup(res.text, 'html.parser')
+news_blocks = soup.find_all('h2', class_='post__title')
+article = list(map(lambda x: x.find('a', class_='post__title_link'), news_blocks))
+posts = soup.find_all('article', class_='post_preview')
+date_all = list(map(lambda x: x.find('span', class_='post__time'), posts)) 
+for number_date in date_all:
+    for date_deffinitly in number_date:
+        print(date_deffinitly)
+
+
+article = list(map(lambda x: x.find('a', class_='post__title_link'), news_blocks)) 
+for number_block in article:
+    for block1 in number_block:
+        if any([keywords.lower() in block1.lower() for keywords in KEYWORDS]):
+            print(date_deffinitly,block1,number_block.attrs.get('href'))
+
+я не знаю, как это решать. 
+__________________________
+                
+import requests
+url = ['https://identityprotection.avast.com/v1/web/query/site-breaches/unauthorized-data']
+EMAIL = ['xxx@gmail.com']
+headers = {
+    'Vaar-Version':  0,
+    'Vaar-Header-App-Product': 'hackcheck-web-avast'
+}
+params = {
+    'EA':  EMAIL
+}
+r =  requests.post(url, data = json.dumps(params), headers = headers)    
+r.json()
+
+И здесь  нет никакого представления, как это решать.  
