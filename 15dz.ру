@@ -23,6 +23,16 @@ get_all_1(res)
 ____________________
 Короче у меня не получается. я пробовала такие варианты
 
+
+import re
+article_all = list(map(lambda x: x.find('a', class_='post__title_link'), posts))
+for number_block in article_all:
+        for block1 in number_block:
+            if any([keywords.lower() in block1.lower() for keywords in KEYWORDS]):
+                post_need = posts.find('a', class_='post__title_link',text=re.compile(block1.lower()))
+                date = post_need.find('span', class_='post__time')
+                print(date,block1, number_block.attrs.get('href'))
+
 import re
 for block in article:
      for block1 in block:
