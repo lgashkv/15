@@ -17,8 +17,7 @@ def get_all(res):
         for block1 in number_block:
             if any([keywords.lower() in block1.lower() for keywords in KEYWORDS]):
                 print(date_deffinitly,block1,number_block.attrs.get('href'))
-            else:
-                print('По таким ключевым словам статей нет')
+          
 get_all_1(res)
 ____________________
 Короче у меня не получается. я пробовала такие варианты
