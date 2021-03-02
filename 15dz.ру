@@ -1,26 +1,21 @@
 import requests
 from bs4 import BeautifulSoup
-KEYWORDS = ['phyton', 'парсинг']
+KEYWORDS = ['Тотальная', 'парсинг']
 res = requests.get('https://habr.com/ru/all/')
-import time
+import time   
 def get_all(res):
     time.sleep(0.3)    
     soup = BeautifulSoup(res.text, 'html.parser')
-    news_blocks = soup.find_all('h2', class_='post__title')
-    article = list(map(lambda x: x.find('a', class_='post__title_link'), news_blocks))
     posts = soup.find_all('article', class_='post_preview')
-    date_all = list(map(lambda x: x.find('span', class_='post__time'), posts)) 
-    for number_date in date_all:
-        for date_deffinitly in number_date:
-            date_deffinitly
+    article = list(map(lambda x: x.find('a', class_='post__title_link'), posts))
     for number_block in article:
         for block1 in number_block:
             if any([keywords.lower() in block1.lower() for keywords in KEYWORDS]):
-                print(date_deffinitly,block1,number_block.attrs.get('href'))
-          
-get_all_1(res)
+                date = soup.find('span', class_='post__time').text
+                print(date,block1,number_block.attrs.get('href'))
+get_all(res)
 ____________________
-Короче у меня не получается. я пробовала такие варианты
+Я пробовала такие варианты
 
 
 import re
