@@ -1,75 +1,21 @@
 import requests
 from bs4 import BeautifulSoup
-KEYWORDS = ['Тотальная', 'парсинг']
-res = requests.get('https://habr.com/ru/all/')
-import time   
-def get_all(res):
-    time.sleep(0.3)    
-    soup = BeautifulSoup(res.text, 'html.parser')
-    posts = soup.find_all('article', class_='post_preview')
-    article = list(map(lambda x: x.find('a', class_='post__title_link'), posts))
-    for number_block in article:
-        for block1 in number_block:
-            if any([keywords.lower() in block1.lower() for keywords in KEYWORDS]):
-                date = soup.find('span', class_='post__time').text
-                print(date,block1,number_block.attrs.get('href'))
-get_all(res)
-____________________
-Я пробовала такие варианты
-
-
-import re
-article_all = list(map(lambda x: x.find('a', class_='post__title_link'), posts))
-for number_block in article_all:
-        for block1 in number_block:
-            if any([keywords.lower() in block1.lower() for keywords in KEYWORDS]):
-                post_need = posts.find('a', class_='post__title_link',text=re.compile(block1.lower()))
-                date = post_need.find('span', class_='post__time')
-                print(date,block1, number_block.attrs.get('href'))
-
-import re
-for block in article:
-     for block1 in block:
-        if any([keywords.lower() in block1.lower() for keywords in KEYWORDS]):
-            posts = soup.find('article', class_='post_preview', text=re.compile(block1.lower())) 
-            print(posts)
-
-не находит передает None
-
-date_all = list(map(lambda x: x.find('span', class_='post__time'), posts)) 
-for number_date in date_all:
-    date = number_date.find('span', class_='post__time')
-  
-ответ: None
-date = number_date.find('span', class_='post__time').text
-ответ: 'NoneType' object has no attribute 'text'
-___________________________________________________
-
-если отдельно все разложить: то дата опять неверна.
-
-import requests
-from bs4 import BeautifulSoup
-KEYWORDS = ['phyton', 'парсинг']
+KEYWORDS = ['слушать', 'парсинг']
 res = requests.get('https://habr.com/ru/all/')
 import time
-time.sleep(0.3)    
-soup = BeautifulSoup(res.text, 'html.parser')
-news_blocks = soup.find_all('h2', class_='post__title')
-article = list(map(lambda x: x.find('a', class_='post__title_link'), news_blocks))
-posts = soup.find_all('article', class_='post_preview')
-date_all = list(map(lambda x: x.find('span', class_='post__time'), posts)) 
-for number_date in date_all:
-    for date_deffinitly in number_date:
-        print(date_deffinitly)
 
-
-article = list(map(lambda x: x.find('a', class_='post__title_link'), news_blocks)) 
-for number_block in article:
-    for block1 in number_block:
-        if any([keywords.lower() in block1.lower() for keywords in KEYWORDS]):
-            print(date_deffinitly,block1,number_block.attrs.get('href'))
-
-я не знаю, как это решать. 
+def get_all(res):
+    time.sleep(0.3)  
+    soup = BeautifulSoup(res.text, 'html.parser')
+    posts = soup.find_all('article', class_='post')
+    for post in posts:
+        link = post.find('a', class_='post__title_link').get('href')
+        date = post.find('span', class_='post__time').text
+        title = post.find('h2', 'post__title').text.strip('\n')
+        text = post.find('div', class_='post__text').text
+        if any([keywords.lower() in title for keywords in KEYWORDS]):
+            print(date,title,link,text)
+get_all(res) 
 __________________________
                 
 import requests
@@ -85,4 +31,4 @@ params = {
 r =  requests.post(url, data = json.dumps(params), headers = headers)    
 r.json()
 
-И здесь  нет никакого представления, как это решать.  
+Здесь  нет никакого представления, как это решать.  
