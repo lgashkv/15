@@ -18,11 +18,12 @@ def get_all(res):
 get_all(res) 
 __________________________
                 
+import json
 import requests
 url = ['https://identityprotection.avast.com/v1/web/query/site-breaches/unauthorized-data']
 EMAIL = ['xxx@gmail.com']
 headers = {
-    'Vaar-Version':  0,
+    'Vaar-Version':  '0',
     'Vaar-Header-App-Product': 'hackcheck-web-avast'
 }
 params = {
@@ -30,5 +31,4 @@ params = {
 }
 r =  requests.post(url, data = json.dumps(params), headers = headers)    
 r.json()
-
-Здесь  нет никакого представления, как это решать.  
+InvalidSchema: No connection adapters were found for "['https://identityprotection.avast.com/v1/web/query/site-breaches/unauthorized-data']".  
