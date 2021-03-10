@@ -1,6 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
-KEYWORDS = ['слушать', 'парсинг']
+KEYWORDS = ['Python','парсинг']
 res = requests.get('https://habr.com/ru/all/')
 import time
 
@@ -12,15 +12,21 @@ def get_all(res):
         link = post.find('a', class_='post__title_link').get('href')
         date = post.find('span', class_='post__time').text
         title = post.find('h2', 'post__title').text.strip('\n')
-        text = post.find('div', class_='post__text').text
-        if any([keywords.lower() in title for keywords in KEYWORDS]):
-            print(date,title,link,text)
-get_all(res) 
+        text = post.find('div', class_='post__text').text  
+        if any([keywords in text for keywords in KEYWORDS]):
+            text_full = requests.get(link)
+            tf = BeautifulSoup(text_full.text, 'html.parser')
+            poststf = tf.find_all('article', class_='post')
+            for posttf in poststf:
+                textfull = posttf.find('div', class_='post__text').text
+                print(date,title,link,textfull)
+            
+get_all(res)
 __________________________
- import json
+  import json
 import requests
-url = ('https://identityprotection.avast.com/v1/web/query/site-breaches/unauthorized-data')
-EMAIL = ['xxx@gmail.com']
+url = 'https://identityprotection.avast.com/v1/web/query/site-breaches/unauthorized-data'
+EMAIL = ['xxx@x.ru, yyy@y.com']
 headers = {
     'Accept': 'application/json, text/plain',
     'Accept-Encoding': 'gzip, deflate, br',
@@ -40,24 +46,7 @@ headers = {
     'Vaar-Header-App-Product-Name': 'hackcheck-web-avast',
     'Vaar-Version': '0'
 }
-params = {
-    'EA':  EMAIL
-}
-r =  requests.post(url, data = json.dumps(params), headers = headers)    
-r.json()
 
-_________________________________
-import json
-import requests
-url = ['https://identityprotection.avast.com/v1/web/query/site-breaches/unauthorized-data']
-EMAIL = ['xxx@gmail.com']
-headers = {
-    'Vaar-Version':  '0',
-    'Vaar-Header-App-Product': 'hackcheck-web-avast'
-}
-params = {
-    'EA':  EMAIL
-}
+params = {'emailAddresses': EMAIL}
 r =  requests.post(url, data = json.dumps(params), headers = headers)    
-r.json()
-InvalidSchema: No connection adapters were found for "['https://identityprotection.avast.com/v1/web/query/site-breaches/unauthorized-data']".  
+print(r)
