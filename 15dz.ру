@@ -36,3 +36,22 @@ headers = {
 params = {'emailAddresses': EMAIL}
 r =  requests.post(url, data = json.dumps(params), headers = headers)    
 print(r)
+
+
+import pandas as pd
+df1 = pd.DataFrame(r.json()['breaches']).transpose().reset_index()
+
+email = r.json()['summary']
+for k,v in email.items():
+    for k1,v1 in v.items():
+        list =[v1]
+        dict = {'email':k,'breachId':v1}
+        
+email_df = pd.DataFrame(data=dict, index=list)
+
+n = email_df.merge(df1, how = 'left', on = 'breachId')
+
+itog = n[['email','publishDate','site','description']]
+itog
+
+
