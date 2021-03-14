@@ -55,7 +55,7 @@ itog
 _____________________________
 
 NEWSFEED_REQUEST = 'https://api.vk.com/method/wall.get?'
-TOKEN = '98e50135d6cab632ee059d5b63cfdcdcacf09fffa52cd31357121a0ac7d02f433fde41a68f0bb2d548fae'
+TOKEN = 
 VERSION = '5.103'
 SLEEP = 0.33
 
