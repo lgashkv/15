@@ -52,5 +52,22 @@ n = email_df.merge(df1, how = 'left', on = 'breachId')
 
 itog = n[['email','publishDate','site','description']]
 itog
+_____________________________
+
+NEWSFEED_REQUEST = 'https://api.vk.com/method/wall.get?'
+TOKEN = '98e50135d6cab632ee059d5b63cfdcdcacf09fffa52cd31357121a0ac7d02f433fde41a68f0bb2d548fae'
+VERSION = '5.103'
+SLEEP = 0.33
+
+params = {'access_token': TOKEN,'v': VERSION,'domain':'netology','count': 50,'filter': all}
+
+res = requests.get(NEWSFEED_REQUEST, params)
+res
+
+res.text
+res.json()
+res.json()['response']['items']
+pd.DataFrame(res.json()['response']['items'])[['date','text']]
+
 
 
